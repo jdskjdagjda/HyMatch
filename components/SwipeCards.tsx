@@ -5,7 +5,7 @@ import { SwipeableCard } from './SwipeableCard';
 import { useJobs } from '@/contexts/JobContext';
 import { Job } from '@/types/Job';
 
-const { width } = Dimensions.get('window');
+const { width, height } = Dimensions.get('window');
 
 export function SwipeCards() {
   const { jobs, addApplication, applications } = useJobs();
@@ -66,8 +66,8 @@ export function SwipeCards() {
             styles.card,
             {
               transform: [
-                { scale: 1 - index * 0.05 },
-                { translateY: index * 10 },
+                { scale: 1 - index * 0.03 },
+                { translateY: index * 8 },
               ],
             },
           ]}
@@ -84,17 +84,18 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    paddingTop: 20,
   },
   card: {
     position: 'absolute',
-    width: width - 15,
-    height: 610,
+    width: width - 40,
+    height: 520,
   },
   emptyContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     width: width - 40,
-    height: 500,
+    height: 520,
   },
 });

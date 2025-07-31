@@ -2,7 +2,6 @@ import React from 'react';
 import { View, Text, StyleSheet, ViewStyle } from 'react-native';
 import Animated from 'react-native-reanimated';
 import { Check, X } from 'lucide-react-native';
-import { LinearGradient } from 'expo-linear-gradient';
 
 interface SwipeIndicatorProps {
   type: 'left' | 'right';
@@ -20,55 +19,71 @@ export function SwipeIndicator({ type, style }: SwipeIndicatorProps) {
         style,
       ]}
     >
-      <LinearGradient
-        colors={isRight ? ['#10B981', '#059669'] : ['#EF4444', '#DC2626']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.gradient}
-      >
+      <View style={[
+        styles.indicator,
+        isRight ? styles.chooseIndicator : styles.refuseIndicator
+      ]}>
         {isRight ? (
-          <Check size={28} color="#ffffff" strokeWidth={3} />
+          <>
+            <Check size={40} color="#4CAF50" strokeWidth={4} />
+            <Text style={[styles.text, styles.chooseText]}>Choose!</Text>
+          </>
         ) : (
-          <X size={28} color="#ffffff" strokeWidth={3} />
+          <>
+            <X size={40} color="#FF4444" strokeWidth={4} />
+            <Text style={[styles.text, styles.refuseText]}>Refusal</Text>
+          </>
         )}
-        <Text style={styles.text}>{isRight ? 'CHOOSE' : 'REFUSE'}</Text>
-      </LinearGradient>
+      </View>
     </Animated.View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 24,
+    position: 'absolute',
+    top: '50%',
+    zIndex: 10,
+  },
+  rightContainer: {
+    right: 20,
+    transform: [{ translateY: -50 }],
+  },
+  leftContainer: {
+    left: 20,
+    transform: [{ translateY: -50 }],
+  },
+  indicator: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 4,
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
+    shadowOffset: { width: 0, height: 4 },
     shadowOpacity: 0.3,
     shadowRadius: 8,
     elevation: 8,
   },
-  rightContainer: {
-    transform: [{ rotate: '15deg' }],
+  chooseIndicator: {
+    backgroundColor: 'rgba(76, 175, 80, 0.9)',
+    borderColor: '#4CAF50',
   },
-  leftContainer: {
-    transform: [{ rotate: '-15deg' }],
-  },
-  gradient: {
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-    borderRadius: 24,
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10,
+  refuseIndicator: {
+    backgroundColor: 'rgba(255, 68, 68, 0.9)',
+    borderColor: '#FF4444',
   },
   text: {
+    fontSize: 14,
     fontFamily: 'Inter-Bold',
-    fontSize: 16,
-    color: '#ffffff',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 2,
+    marginTop: 4,
+    textAlign: 'center',
+  },
+  chooseText: {
+    color: '#FFF',
+  },
+  refuseText: {
+    color: '#FFF',
   },
 });

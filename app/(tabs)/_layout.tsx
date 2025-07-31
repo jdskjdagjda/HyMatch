@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { Trash2, Briefcase, Award } from 'lucide-react-native';
+import { Heart, Briefcase, X } from 'lucide-react-native';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useTheme } from '@/contexts/ThemeContext';
 
@@ -12,7 +12,7 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: isDarkMode ? '#18181b' : '#ffffff',
+          backgroundColor: '#D4A574',
           borderTopWidth: 0,
           paddingBottom: 10,
           paddingTop: 10,
@@ -31,8 +31,8 @@ export default function TabLayout() {
           fontSize: 11,
           marginTop: 3,
         },
-        tabBarActiveTintColor: isDarkMode ? '#a5b4fc' : '#667eea',
-        tabBarInactiveTintColor: isDarkMode ? '#a1a1aa' : '#9ca3af',
+        tabBarActiveTintColor: '#FFFFFF',
+        tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)',
         tabBarIconStyle: {
           marginBottom: 1,
         },
@@ -43,7 +43,7 @@ export default function TabLayout() {
         options={{
           title: t('tabs.refused'),
           tabBarIcon: ({ size, color }) => (
-            <Trash2 size={size - 2} color={color} strokeWidth={2.5} />
+            <X size={size - 2} color={color} strokeWidth={2.5} />
           ),
         }}
       />
@@ -61,7 +61,7 @@ export default function TabLayout() {
         options={{
           title: t('tabs.chosen'),
           tabBarIcon: ({ size, color }) => (
-            <Award size={size - 2} color={color} strokeWidth={2.5} />
+            <Heart size={size - 2} color={color} strokeWidth={2.5} />
           ),
         }}
       />

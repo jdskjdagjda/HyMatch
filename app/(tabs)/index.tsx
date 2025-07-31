@@ -26,7 +26,7 @@ export default function HomeScreen() {
       style={[styles.container, isDarkMode && { backgroundColor: '#18181b' }]}
     >
       <LinearGradient
-        colors={isDarkMode ? ['#23233a', '#18181b'] : ['#667eea', '#764ba2']}
+        colors={isDarkMode ? ['#23233a', '#18181b'] : ['#E8E8E8', '#F5F5F5']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.header}
@@ -36,26 +36,20 @@ export default function HomeScreen() {
             style={styles.headerButton}
             onPress={() => setIsMenuVisible(true)}
           >
-            <Menu size={22} color="#ffffff" />
+            <Menu size={22} color={isDarkMode ? '#ffffff' : '#666666'} />
           </TouchableOpacity>
 
           <View style={styles.titleContainer}>
             <Text style={[styles.title, isDarkMode && { color: '#fff' }]}>
-              {t('app.title')}
+              仕事一覧
             </Text>
-            <View
-              style={[
-                styles.titleUnderline,
-                isDarkMode && { backgroundColor: '#fff' },
-              ]}
-            />
           </View>
 
           <TouchableOpacity
             style={styles.headerButton}
             onPress={() => router.push('/filter')}
           >
-            <SlidersHorizontal size={22} color="#ffffff" />
+            <SlidersHorizontal size={22} color={isDarkMode ? '#ffffff' : '#666666'} />
           </TouchableOpacity>
         </View>
       </LinearGradient>
@@ -77,20 +71,12 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#f8fafc',
+    backgroundColor: '#F5F5F5',
   },
   header: {
     paddingHorizontal: 20,
     paddingTop: 16,
-    paddingBottom: 32,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 6,
-    elevation: 6,
+    paddingBottom: 20,
   },
   headerContent: {
     flexDirection: 'row',
@@ -101,7 +87,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 22,
-    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#000',
@@ -118,32 +104,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   title: {
-    fontSize: 28,
+    fontSize: 18,
     fontFamily: 'Inter-Bold',
-    color: '#ffffff',
-    textShadowColor: 'rgba(0, 0, 0, 0.3)',
-    textShadowOffset: { width: 0, height: 1 },
-    textShadowRadius: 3,
-    letterSpacing: 0.8,
-  },
-  titleUnderline: {
-    width: 50,
-    height: 2.5,
-    backgroundColor: '#ffffff',
-    borderRadius: 1.5,
-    marginTop: 6,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
-    shadowOpacity: 0.2,
-    shadowRadius: 3,
-    elevation: 2,
+    color: '#333333',
+    letterSpacing: 0.5,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 16,
+    backgroundColor: '#F5F5F5',
   },
 });
