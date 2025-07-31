@@ -12,9 +12,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { useUser } from '@/contexts/UserContext';
-import { X, User, Settings, Globe, LogOut } from 'lucide-react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useTheme } from '@/contexts/ThemeContext';
+import { X, User, Globe, LogOut } from 'lucide-react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -27,7 +25,6 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
   const router = useRouter();
   const { t, language, setLanguage } = useLanguage();
   const { user } = useUser();
-  const { isDarkMode } = useTheme();
 
   const languages = [
     { code: 'ja', name: '日本語', flag: '🇯🇵' },
@@ -60,15 +57,6 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
     router.push('/profile');
   };
 
-  const handleSettingsPress = () => {
-    onClose();
-    router.push('/settings');
-  };
-
-  const handleContactPress = () => {
-    onClose();
-    router.push('/contact');
-  };
 
   if (!isMenuRendered) {
     return null;
@@ -81,38 +69,26 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
     >
       <TouchableWithoutFeedback onPress={onClose}>
         <View
-          style={[
-            styles.overlay,
-            isDarkMode && { backgroundColor: 'rgba(0,0,0,0.8)' },
-          ]}
+          style={styles.overlay}
         />
       </TouchableWithoutFeedback>
       <Animated.View
         style={[
           styles.menu,
-          isDarkMode && { backgroundColor: '#18181b' },
           { transform: [{ translateX: slideAnim }] },
         ]}
       >
-        <LinearGradient
-          colors={isDarkMode ? ['#23233a', '#18181b'] : ['#667eea', '#764ba2']}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.headerGradient}
-        >
+        <View style={styles.headerGradient}>
           <SafeAreaView style={styles.safeArea}>
             <View style={styles.header}>
-              <Text style={[styles.title, isDarkMode && { color: '#fff' }]}>
+              <Text style={styles.title}>
                 Menu
               </Text>
               <TouchableOpacity
-                style={[
-                  styles.closeButton,
-                  isDarkMode && { backgroundColor: 'rgba(255,255,255,0.08)' },
-                ]}
+                style={styles.closeButton}
                 onPress={onClose}
               >
-                <X size={20} color={isDarkMode ? '#fff' : '#ffffff'} />
+                <X size={20} color="#ffffff" />
               </TouchableOpacity>
             </View>
 
@@ -120,33 +96,22 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
               {user ? (
                 <View style={styles.userInfo}>
                   <View
-                    style={[
-                      styles.avatarContainer,
-                      isDarkMode && {
-                        backgroundColor: 'rgba(255,255,255,0.08)',
-                      },
-                    ]}
+                    style={styles.avatarContainer}
                   >
                     <Text
-                      style={[
-                        styles.avatarText,
-                        isDarkMode && { color: '#fff' },
-                      ]}
+                      style={styles.avatarText}
                     >
                       {user.firstName.charAt(0)}
                       {user.lastName.charAt(0)}
                     </Text>
                   </View>
                   <Text
-                    style={[styles.userName, isDarkMode && { color: '#fff' }]}
+                    style={styles.userName}
                   >
                     {user.firstName} {user.lastName}
                   </Text>
                   <Text
-                    style={[
-                      styles.userEmail,
-                      isDarkMode && { color: '#a1a1aa' },
-                    ]}
+                    style={styles.userEmail}
                   >
                     {user.email}
                   </Text>
@@ -154,20 +119,12 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
               ) : (
                 <View style={styles.guestSection}>
                   <View
-                    style={[
-                      styles.avatarContainer,
-                      isDarkMode && {
-                        backgroundColor: 'rgba(255,255,255,0.08)',
-                      },
-                    ]}
+                    style={styles.avatarContainer}
                   >
-                    <User size={20} color={isDarkMode ? '#fff' : '#ffffff'} />
+                    <User size={20} color="#ffffff" />
                   </View>
                   <Text
-                    style={[
-                      styles.guestText,
-                      isDarkMode && { color: '#a1a1aa' },
-                    ]}
+                    style={styles.guestText}
                   >
                     Guest User
                   </Text>
@@ -175,88 +132,32 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
               )}
             </View>
           </SafeAreaView>
-        </LinearGradient>
+        </View>
 
         <View
-          style={[
-            styles.menuContent,
-            isDarkMode && { backgroundColor: '#18181b' },
-          ]}
+          style={styles.menuContent}
         >
           <View style={styles.menuItems}>
             <TouchableOpacity
-              style={[
-                styles.menuItem,
-                isDarkMode && { backgroundColor: '#23233a' },
-              ]}
+              style={styles.menuItem}
               onPress={handleProfilePress}
             >
               <View
-                style={[
-                  styles.menuIconContainer,
-                  isDarkMode && { backgroundColor: '#27272a' },
-                ]}
+                style={styles.menuIconContainer}
               >
-                <User size={18} color={isDarkMode ? '#a5b4fc' : '#667eea'} />
+                <User size={18} color="#667eea" />
               </View>
               <Text
-                style={[styles.menuItemText, isDarkMode && { color: '#fff' }]}
+                style={styles.menuItemText}
               >
                 {t('tabs.profile')}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.menuItem,
-                isDarkMode && { backgroundColor: '#23233a' },
-              ]}
-              onPress={handleSettingsPress}
-            >
-              <View
-                style={[
-                  styles.menuIconContainer,
-                  isDarkMode && { backgroundColor: '#27272a' },
-                ]}
-              >
-                <Settings
-                  size={18}
-                  color={isDarkMode ? '#a5b4fc' : '#667eea'}
-                />
-              </View>
-              <Text
-                style={[styles.menuItemText, isDarkMode && { color: '#fff' }]}
-              >
-                {t('tabs.settings')}
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={[
-                styles.menuItem,
-                isDarkMode && { backgroundColor: '#23233a' },
-              ]}
-              onPress={handleContactPress}
-            >
-              <View
-                style={[
-                  styles.menuIconContainer,
-                  isDarkMode && { backgroundColor: '#27272a' },
-                ]}
-              >
-                <Globe size={18} color={isDarkMode ? '#a5b4fc' : '#667eea'} />
-              </View>
-              <Text
-                style={[styles.menuItemText, isDarkMode && { color: '#fff' }]}
-              >
-                {t('contact.title')}
               </Text>
             </TouchableOpacity>
           </View>
 
           <View style={styles.languageSection}>
             <Text
-              style={[styles.sectionTitle, isDarkMode && { color: '#a1a1aa' }]}
+              style={styles.sectionTitle}
             >
               Language
             </Text>
@@ -266,9 +167,6 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
                 style={[
                   styles.languageOption,
                   language === lang.code && styles.languageOptionActive,
-                  isDarkMode && { backgroundColor: '#23233a' },
-                  isDarkMode &&
-                    language === lang.code && { borderColor: '#a5b4fc' },
                 ]}
                 onPress={() => setLanguage(lang.code as any)}
               >
@@ -277,25 +175,16 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
                   style={[
                     styles.languageName,
                     language === lang.code && styles.languageNameActive,
-                    isDarkMode && { color: '#fff' },
-                    isDarkMode &&
-                      language === lang.code && { color: '#a5b4fc' },
                   ]}
                 >
                   {lang.name}
                 </Text>
                 {language === lang.code && (
                   <View
-                    style={[
-                      styles.languageCheck,
-                      isDarkMode && { backgroundColor: '#a5b4fc' },
-                    ]}
+                    style={styles.languageCheck}
                   >
                     <Text
-                      style={[
-                        styles.checkmark,
-                        isDarkMode && { color: '#23233a' },
-                      ]}
+                      style={styles.checkmark}
                     >
                       ✓
                     </Text>
@@ -307,17 +196,11 @@ export function HamburgerMenu({ isVisible, onClose }: HamburgerMenuProps) {
 
           <View style={styles.bottomSection}>
             <TouchableOpacity
-              style={[
-                styles.logoutButton,
-                isDarkMode && {
-                  backgroundColor: '#23233a',
-                  borderColor: '#a1a1aa',
-                },
-              ]}
+              style={styles.logoutButton}
             >
               <LogOut size={18} color="#EF4444" />
               <Text
-                style={[styles.logoutText, isDarkMode && { color: '#EF4444' }]}
+                style={styles.logoutText}
               >
                 Logout
               </Text>
@@ -336,7 +219,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.6)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     position: 'absolute',
     width: '100%',
     height: '100%',
@@ -355,6 +238,7 @@ const styles = StyleSheet.create({
     zIndex: 2,
   },
   headerGradient: {
+    backgroundColor: '#667eea',
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
   },

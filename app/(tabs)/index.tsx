@@ -6,41 +6,30 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { SwipeCards } from '@/components/SwipeCards';
-import { LinearGradient } from 'expo-linear-gradient';
 import { Menu, SlidersHorizontal } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { ProfileIncompleteModal } from '@/components/ProfileIncompleteModal';
 import { HamburgerMenu } from '@/components/HamburgerMenu';
 import { useState } from 'react';
-import { useTheme } from '@/contexts/ThemeContext';
 
 export default function HomeScreen() {
   const router = useRouter();
   const { t } = useLanguage();
   const [isMenuVisible, setIsMenuVisible] = useState(false);
-  const { isDarkMode } = useTheme();
 
   return (
-    <SafeAreaView
-      style={[styles.container, isDarkMode && { backgroundColor: '#18181b' }]}
-    >
-      <LinearGradient
-        colors={isDarkMode ? ['#23233a', '#18181b'] : ['#E8E8E8', '#F5F5F5']}
-        start={{ x: 0, y: 0 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.header}
-      >
+    <SafeAreaView style={styles.container}>
+      <View style={styles.header}>
         <View style={styles.headerContent}>
           <TouchableOpacity
             style={styles.headerButton}
             onPress={() => setIsMenuVisible(true)}
           >
-            <Menu size={22} color={isDarkMode ? '#ffffff' : '#666666'} />
+            <Menu size={22} color="#666666" />
           </TouchableOpacity>
 
           <View style={styles.titleContainer}>
-            <Text style={[styles.title, isDarkMode && { color: '#fff' }]}>
+            <Text style={styles.title}>
               仕事一覧
             </Text>
           </View>
@@ -49,14 +38,12 @@ export default function HomeScreen() {
             style={styles.headerButton}
             onPress={() => router.push('/filter')}
           >
-            <SlidersHorizontal size={22} color={isDarkMode ? '#ffffff' : '#666666'} />
+            <SlidersHorizontal size={22} color="#666666" />
           </TouchableOpacity>
         </View>
-      </LinearGradient>
+      </View>
 
-      <View
-        style={[styles.content, isDarkMode && { backgroundColor: '#18181b' }]}
-      >
+      <View style={styles.content}>
         <SwipeCards />
       </View>
 
@@ -71,9 +58,10 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#ffffff',
   },
   header: {
+    backgroundColor: '#E8E8E8',
     paddingHorizontal: 20,
     paddingTop: 16,
     paddingBottom: 20,
@@ -111,6 +99,6 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#ffffff',
   },
 });

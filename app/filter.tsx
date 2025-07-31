@@ -6,20 +6,24 @@ import {
   SafeAreaView,
   ScrollView,
   TouchableOpacity,
+  Modal,
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useJobs, JobFilters, SortOption } from '@/contexts/JobContext';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { X, Menu, ArrowUpDown, MapPin, Chrome as Home, GraduationCap, Globe, Coins, Clock, Star } from 'lucide-react-native';
-import { useTheme } from '@/contexts/ThemeContext';
 
 export default function FilterModal() {
   const router = useRouter();
   const { filters, setFilters, sortBy, setSortBy } = useJobs();
   const { t } = useLanguage();
-  const { isDarkMode } = useTheme();
   const [localFilters, setLocalFilters] = useState<JobFilters>(filters);
   const [localSortBy, setLocalSortBy] = useState<SortOption>(sortBy);
+  const [showJapaneseLevelModal, setShowJapaneseLevelModal] = useState(false);
+  const [showSalaryModal, setShowSalaryModal] = useState(false);
+
+  const japaneseLevels = ['N1', 'N2', 'N3', 'N4', 'N5'];
+  const salaryOptions = ['時給', '日給', '月給', '年収'];
 
   const handleApply = () => {
     setFilters(localFilters);
@@ -38,6 +42,15 @@ export default function FilterModal() {
     setLocalSortBy('date');
   };
 
+  const toggleJapaneseLevel = (level: string) => {
+    setLocalFilters(prev => ({
+      ...prev,
+      japaneseLevels: prev.japaneseLevels.includes(level)
+        ? prev.japaneseLevels.filter(l => l !== level)
+        : [...prev.japaneseLevels, level]
+    }));
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Header */}
@@ -54,10 +67,13 @@ export default function FilterModal() {
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Sort Section */}
         <View style={styles.section}>
-          {/* Sort by Time */}
-          <TouchableOpacity style={styles.filterItem}>
+          {/* Sort by Salary */}
+          <TouchableOpacity 
+            style={styles.filterItem}
+            onPress={() => setLocalSortBy('wage')}
+          >
             <View style={styles.radioButton}>
-              <View style={styles.radioInner} />
+              {localSortBy === 'wage' && <View style={styles.radioInner} />}
             </View>
             <View style={styles.iconContainer}>
               <Coins size={16} color="#FFB800" />
@@ -69,9 +85,12 @@ export default function FilterModal() {
           </TouchableOpacity>
 
           {/* Commute Time (Home) */}
-          <TouchableOpacity style={styles.filterItem}>
+          <TouchableOpacity 
+            style={styles.filterItem}
+            onPress={() => setLocalSortBy('commute')}
+          >
             <View style={styles.radioButton}>
-              <View style={styles.radioInner} />
+              {localSortBy === 'commute' && <View style={styles.radioInner} />}
             </View>
             <View style={styles.iconContainer}>
               <Clock size={16} color="#FF6B35" />
@@ -83,9 +102,12 @@ export default function FilterModal() {
           </TouchableOpacity>
 
           {/* Commute Time (School) */}
-          <TouchableOpacity style={styles.filterItem}>
+          <TouchableOpacity 
+            style={styles.filterItem}
+            onPress={() => setLocalSortBy('date')}
+          >
             <View style={styles.radioButton}>
-              <View style={styles.radioInner} />
+              {localSortBy === 'date' && <View style={styles.radioInner} />}
             </View>
             <View style={styles.iconContainer}>
               <GraduationCap size={16} color="#4CAF50" />
@@ -116,9 +138,12 @@ export default function FilterModal() {
           </TouchableOpacity>
 
           {/* Japanese Level */}
-          <TouchableOpacity style={styles.filterItem}>
+          <TouchableOpacity 
+            style={styles.filterItem}
+            onPress={() => setShowJapaneseLevelModal(true)}
+          >
             <View style={styles.radioButton}>
-              <View style={styles.radioInner} />
+              {localFilters.japaneseLevels.length > 0 && <View style={styles.radioInner} />}
             </View>
             <View style={styles.iconContainer}>
               <Globe size={16} color="#2196F3" />
@@ -127,7 +152,10 @@ export default function FilterModal() {
           </TouchableOpacity>
 
           {/* Hourly Wage */}
-          <TouchableOpacity style={styles.filterItem}>
+          <TouchableOpacity 
+            style={styles.filterItem}
+            onPress={() => setShowSalaryModal(true)}
+          >
             <View style={styles.radioButton}>
               <View style={styles.radioInner} />
             </View>
@@ -160,6 +188,70 @@ export default function FilterModal() {
           </TouchableOpacity>
         </View>
       </ScrollView>
+
+      {/* Japanese Level Modal */}
+      <Modal
+        visible={showJapaneseLevelModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowJapaneseLevelModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>日本語レベル</Text>
+              <TouchableOpacity onPress={() => setShowJapaneseLevelModal(false)}>
+                <X size={24} color="#666" />
+              </TouchableOpacity>
+            </View>
+            {japaneseLevels.map((level) => (
+              <TouchableOpacity
+                key={level}
+                style={styles.modalItem}
+                onPress={() => toggleJapaneseLevel(level)}
+              >
+                <View style={styles.checkbox}>
+                  {localFilters.japaneseLevels.includes(level) && (
+                    <View style={styles.checkboxInner} />
+                  )}
+                </View>
+                <Text style={styles.modalItemText}>{level}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      </Modal>
+
+      {/* Salary Modal */}
+      <Modal
+        visible={showSalaryModal}
+        transparent
+        animationType="fade"
+        onRequestClose={() => setShowSalaryModal(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <View style={styles.modalHeader}>
+              <Text style={styles.modalTitle}>給与</Text>
+              <TouchableOpacity onPress={() => setShowSalaryModal(false)}>
+                <X size={24} color="#666" />
+              </TouchableOpacity>
+            </View>
+            {salaryOptions.map((option) => (
+              <TouchableOpacity
+                key={option}
+                style={styles.modalItem}
+                onPress={() => setShowSalaryModal(false)}
+              >
+                <View style={styles.checkbox}>
+                  <View style={styles.checkboxInner} />
+                </View>
+                <Text style={styles.modalItemText}>{option}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -167,7 +259,7 @@ export default function FilterModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#ffffff',
   },
   header: {
     flexDirection: 'row',
@@ -175,7 +267,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 16,
     paddingVertical: 12,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#ffffff',
     borderBottomWidth: 1,
     borderBottomColor: '#E0E0E0',
   },
@@ -234,7 +326,7 @@ const styles = StyleSheet.create({
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: 'transparent',
+    backgroundColor: '#2196F3',
   },
   iconContainer: {
     width: 24,
@@ -251,5 +343,55 @@ const styles = StyleSheet.create({
   },
   sortIcon: {
     marginLeft: 8,
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#ffffff',
+    borderRadius: 12,
+    padding: 20,
+    width: '80%',
+    maxWidth: 300,
+  },
+  modalHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  modalTitle: {
+    fontSize: 18,
+    fontFamily: 'Inter-SemiBold',
+    color: '#333',
+  },
+  modalItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 12,
+  },
+  checkbox: {
+    width: 20,
+    height: 20,
+    borderRadius: 4,
+    borderWidth: 2,
+    borderColor: '#DDD',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  checkboxInner: {
+    width: 12,
+    height: 12,
+    borderRadius: 2,
+    backgroundColor: '#2196F3',
+  },
+  modalItemText: {
+    fontSize: 16,
+    fontFamily: 'Inter-Regular',
+    color: '#333',
   },
 });

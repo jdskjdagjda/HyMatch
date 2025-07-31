@@ -18,16 +18,14 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const colorScheme = Appearance.getColorScheme();
-  const [theme, setTheme] = useState<Theme>(
-    colorScheme === 'dark' ? 'dark' : 'light'
-  );
+  // Force light theme only - dark mode disabled
+  const [theme, setTheme] = useState<Theme>('light');
 
   const value = useMemo(
     () => ({
       theme,
-      setTheme,
-      isDarkMode: theme === 'dark',
+      setTheme: () => {}, // Disable theme switching
+      isDarkMode: false, // Always false
     }),
     [theme]
   );

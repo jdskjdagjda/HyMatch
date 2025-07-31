@@ -1,11 +1,9 @@
 import { Tabs } from 'expo-router';
-import { Heart, Briefcase, X } from 'lucide-react-native';
+import { MessageCircle, Phone, Bookmark } from 'lucide-react-native';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { useTheme } from '@/contexts/ThemeContext';
 
 export default function TabLayout() {
   const { t } = useLanguage();
-  const { isDarkMode } = useTheme();
 
   return (
     <Tabs
@@ -39,29 +37,29 @@ export default function TabLayout() {
       }}
     >
       <Tabs.Screen
-        name="refused"
-        options={{
-          title: t('tabs.refused'),
-          tabBarIcon: ({ size, color }) => (
-            <X size={size - 2} color={color} strokeWidth={2.5} />
-          ),
-        }}
-      />
-      <Tabs.Screen
         name="index"
         options={{
-          title: t('tabs.jobs'),
+          title: '',
           tabBarIcon: ({ size, color }) => (
-            <Briefcase size={size - 2} color={color} strokeWidth={2.5} />
+            <MessageCircle size={size - 2} color={color} strokeWidth={2.5} />
           ),
         }}
       />
       <Tabs.Screen
-        name="chosen"
+        name="contact"
         options={{
-          title: t('tabs.chosen'),
+          title: '',
           tabBarIcon: ({ size, color }) => (
-            <Heart size={size - 2} color={color} strokeWidth={2.5} />
+            <Phone size={size - 2} color={color} strokeWidth={2.5} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="bookmarks"
+        options={{
+          title: '',
+          tabBarIcon: ({ size, color }) => (
+            <Bookmark size={size - 2} color={color} strokeWidth={2.5} />
           ),
         }}
       />
