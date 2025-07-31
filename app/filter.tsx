@@ -10,7 +10,7 @@ import {
 import { useRouter } from 'expo-router';
 import { useJobs, JobFilters, SortOption } from '@/contexts/JobContext';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { X, Menu, ArrowUpDown, MapPin, Home, GraduationCap, Globe, Coins, Clock, Star } from 'lucide-react-native';
+import { X, Menu, ArrowUpDown, MapPin, Chrome as Home, GraduationCap, Globe, Coins, Clock, Star } from 'lucide-react-native';
 import { useTheme } from '@/contexts/ThemeContext';
 
 export default function FilterModal() {
