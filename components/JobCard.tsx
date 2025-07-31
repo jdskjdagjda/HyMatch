@@ -1,17 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Job } from '@/types/Job';
-import { 
-  Building2, 
-  Coins, 
-  Clock, 
-  MapPin, 
-  Star,
-  Calendar,
-  Globe,
-  Train,
-  Home
-} from 'lucide-react-native';
+import { Building2, Coins, Clock, MapPin, Star, Calendar, Globe, Brain as Train, Chrome as Home } from 'lucide-react-native';
 
 interface JobCardProps {
   job: Job;
