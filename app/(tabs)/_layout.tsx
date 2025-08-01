@@ -1,5 +1,5 @@
 import { Tabs } from 'expo-router';
-import { MessageCircle, Phone, Bookmark } from 'lucide-react-native';
+import { MessageCircle, Phone, FileText } from 'lucide-react-native';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function TabLayout() {
@@ -10,29 +10,30 @@ export default function TabLayout() {
       screenOptions={{
         headerShown: false,
         tabBarStyle: {
-          backgroundColor: '#D4A574',
+          backgroundColor: '#C8A882',
           borderTopWidth: 0,
-          paddingBottom: 10,
-          paddingTop: 10,
-          height: 80,
+          paddingBottom: 8,
+          paddingTop: 8,
+          height: 70,
           shadowColor: '#000',
           shadowOffset: {
             width: 0,
-            height: -3,
+            height: -2,
           },
-          shadowOpacity: 0.08,
-          shadowRadius: 6,
-          elevation: 6,
+          shadowOpacity: 0.1,
+          shadowRadius: 4,
+          elevation: 4,
         },
         tabBarLabelStyle: {
           fontFamily: 'Inter-Medium',
-          fontSize: 11,
-          marginTop: 3,
+          fontSize: 0,
+          height: 0,
         },
         tabBarActiveTintColor: '#FFFFFF',
-        tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.7)',
+        tabBarInactiveTintColor: 'rgba(255, 255, 255, 0.8)',
         tabBarIconStyle: {
-          marginBottom: 1,
+          marginBottom: 0,
+          marginTop: 4,
         },
       }}
     >
@@ -41,7 +42,17 @@ export default function TabLayout() {
         options={{
           title: '',
           tabBarIcon: ({ size, color }) => (
-            <MessageCircle size={size - 2} color={color} strokeWidth={2.5} />
+            <View style={{
+              backgroundColor: '#4A9EFF',
+              borderRadius: 20,
+              padding: 8,
+              width: 40,
+              height: 40,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <MessageCircle size={24} color="#FFFFFF" strokeWidth={2} />
+            </View>
           ),
         }}
       />
@@ -50,7 +61,25 @@ export default function TabLayout() {
         options={{
           title: '',
           tabBarIcon: ({ size, color }) => (
-            <Phone size={size - 2} color={color} strokeWidth={2.5} />
+            <View style={{
+              backgroundColor: '#4A9EFF',
+              borderRadius: 8,
+              padding: 8,
+              width: 80,
+              height: 40,
+              alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'row',
+              gap: 4,
+            }}>
+              <Phone size={20} color="#FFFFFF" strokeWidth={2} />
+              <View style={{
+                backgroundColor: '#FFD700',
+                borderRadius: 4,
+                width: 24,
+                height: 16,
+              }} />
+            </View>
           ),
         }}
       />
@@ -59,10 +88,19 @@ export default function TabLayout() {
         options={{
           title: '',
           tabBarIcon: ({ size, color }) => (
-            <Bookmark size={size - 2} color={color} strokeWidth={2.5} />
+            <View style={{
+              backgroundColor: '#FF69B4',
+              borderRadius: 8,
+              padding: 8,
+              width: 40,
+              height: 40,
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}>
+              <FileText size={20} color="#FFFFFF" strokeWidth={2} />
+            </View>
           ),
         }}
       />
     </Tabs>
   );
-}

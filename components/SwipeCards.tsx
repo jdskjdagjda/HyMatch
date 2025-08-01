@@ -84,18 +84,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingTop: 20,
+    paddingTop: 40,
+    marginTop: -60,
   },
   card: {
     position: 'absolute',
     width: width - 40,
-    height: 520,
+    height: 580,
   },
   emptyContainer: {
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
     width: width - 40,
-    height: 520,
+    height: 580,
+    marginTop: -60,
   },
 });
