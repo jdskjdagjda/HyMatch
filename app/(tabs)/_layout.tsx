@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import { MessageCircle, Phone, FileText } from 'lucide-react-native';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { View } from 'react-native';
 
 export default function TabLayout() {
   const { t } = useLanguage();
@@ -104,3 +105,4 @@ export default function TabLayout() {
       />
     </Tabs>
   );
+}
