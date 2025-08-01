@@ -1,147 +1,118 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import {
+  faBuilding,
+  faFileContract,
+  faCoins,
+  faGlobe,
+  faClock,
+  faCalendarAlt,
+  faTrain,
+  faHome,
+  faStar,
+} from '@fortawesome/free-solid-svg-icons';
 import { Job } from '@/types/Job';
-import { Building2, Coins, Clock, MapPin, Star, Calendar, Globe, Brain as Train, Chrome as Home } from 'lucide-react-native';
 
 interface JobCardProps {
   job: Job;
 }
 
 const { width } = Dimensions.get('window');
-const CARD_WIDTH = width - 40;
+const CARD_WIDTH = width - 20;
 
 export function JobCard({ job }: JobCardProps) {
-  const workDaysJapanese = {
-    'Mon': 'MON',
-    'Tue': 'TUE', 
-    'Wed': 'WED',
-    'Thu': 'THU',
-    'Fri': 'FRI',
-    'Sat': 'SAT',
-    'Sun': 'SUN'
-  };
-
   return (
     <View style={styles.container}>
       <View style={styles.card}>
-        {/* Header with building icon and title */}
-        <View style={styles.header}>
-          <View style={styles.iconContainer}>
-            <Building2 size={16} color="#FF6B35" />
-          </View>
-          <Text style={styles.title} numberOfLines={2}>
-            {job.title === 'Light Work' ? '軽作業【戸田コールドセンタ...' : 
-             job.title === 'Kitchen Assistant' ? 'キッチンアシスタント' :
-             job.title === 'Food Delivery Driver' ? 'フードデリバリー' :
-             job.title === 'Data Entry Clerk' ? 'データ入力' :
-             job.title === 'Store Assistant' ? '店舗スタッフ' :
-             job.title === 'Hotel Room Cleaning' ? 'ホテル清掃' :
-             job.title === 'Site Assistant' ? '現場アシスタント' :
-             job.title === 'Waiter/Waitress' ? 'ウェイター・ウェイトレス' :
-             job.title}
-          </Text>
-        </View>
-
-        {/* Job category with icon */}
-        <View style={styles.categoryRow}>
-          <View style={styles.categoryContainer}>
-            <View style={styles.categoryIcon}>
-              <Text style={styles.categoryIconText}>📝</Text>
+        {/* Header */}
+        <View style={[styles.rowBetween, styles.sectionBorder]}>
+          <View style={styles.rowCenterFull}>
+            <View style={styles.iconCircleLarge}>
+              <FontAwesomeIcon icon={faBuilding} size={28} color="#1E90FF" />
             </View>
-            <Text style={styles.categoryText}>仕分け</Text>
-          </View>
-          <View style={styles.categoryBadge}>
-            <Text style={styles.categoryBadgeText}>🏢</Text>
+            <Text style={styles.title}>{job.title}</Text>
           </View>
         </View>
 
-        {/* Salary and Japanese Level */}
-        <View style={styles.salaryRow}>
-          <View style={styles.salaryContainer}>
-            <View style={styles.salaryIcon}>
-              <Coins size={14} color="#FFB800" />
+        {/* Job Type */}
+        <View style={[styles.infoSection, styles.sectionBorder]}>
+          <View style={styles.rowBetween}>
+            <View style={styles.rowCenterFull}>
+              <View style={styles.iconCircleLarge}>
+                <FontAwesomeIcon icon={faFileContract} size={26} color="#1E90FF" />
+              </View>
+              <Text style={styles.infoText}>{job.type}</Text>
             </View>
-            <Text style={styles.salaryText}>
-              {job.salary === '¥1,000–¥2,000' ? '¥1,030～¥1,130' :
-               job.salary === '¥1,200–¥1,800' ? '¥1,200～¥1,800' :
-               job.salary === '¥1,500–¥2,500' ? '¥2,000～¥2,200' :
-               job.salary}
-            </Text>
-          </View>
-          <View style={styles.japaneseLevel}>
-            <Globe size={12} color="#4CAF50" />
-            <View style={styles.japaneseLevelDots}>
-              <View style={[styles.dot, styles.activeDot]} />
-              <View style={[styles.dot, styles.activeDot]} />
-              <View style={[styles.dot, job.japaneseLevel === 'N1' || job.japaneseLevel === 'N2' ? styles.activeDot : styles.inactiveDot]} />
+            <View style={styles.iconCircleLarge}>
+              <Text style={{ fontSize: 22 }}>🏢</Text>
             </View>
-            <Text style={styles.japaneseLevelText}>{job.japaneseLevel}</Text>
           </View>
         </View>
 
-        {/* Commute time and station */}
-        <View style={styles.commuteRow}>
-          <View style={styles.commuteContainer}>
-            <View style={styles.commuteIcon}>
-              <Clock size={14} color="#FF6B35" />
+        {/* Salary & Language Level */}
+        <View style={[styles.rowBetween, styles.sectionBorder]}>
+          <View style={styles.rowCenterFull}>
+            <View style={styles.iconCircleLarge}>
+              <FontAwesomeIcon icon={faCoins} size={26} color="#1E90FF" />
             </View>
-            <Text style={styles.commuteText}>? 分</Text>
+            <Text style={styles.infoText}>{job.salary}</Text>
           </View>
-          <View style={styles.stationContainer}>
-            <View style={styles.stationIcon}>
-              <Train size={12} color="#4CAF50" />
+          <View style={styles.verticalDivider} />
+          <View style={styles.rowCenterFull}>
+            <View style={styles.iconCircleLarge}>
+              <FontAwesomeIcon icon={faGlobe} size={26} color="#1E90FF" />
             </View>
-            <Text style={styles.stationText}>
-              {job.location.includes('Shibuya') ? '戸田公園' :
-               job.location.includes('Shinjuku') ? '新宿' :
-               job.location.includes('Harajuku') ? '原宿' :
-               job.location.includes('Ginza') ? '銀座' :
-               job.location.includes('Akihabara') ? '秋葉原' :
-               job.location.includes('Roppongi') ? '六本木' :
-               job.location.includes('Odaiba') ? 'お台場' :
-               job.location.includes('Ebisu') ? '恵比寿' : '駅'}
-            </Text>
+            <Text style={styles.infoText}>{job.japaneseLevel}</Text>
           </View>
         </View>
 
-        {/* Work schedule */}
-        <View style={styles.scheduleContainer}>
-          <View style={styles.workDays}>
+        {/* Commute Time & Station */}
+        <View style={[styles.rowBetween, styles.sectionBorder]}>
+          <View style={styles.rowCenterFull}>
+            <View style={styles.iconCircleLarge}>
+              <FontAwesomeIcon icon={faHome} size={26} color="#1E90FF" />
+            </View>
+            <Text style={styles.infoText}>{job.commuteTime}</Text>
+          </View>
+          <View style={styles.verticalDivider} />
+          <View style={styles.rowCenterFull}>
+            <View style={styles.iconCircleLarge}>
+              <FontAwesomeIcon icon={faTrain} size={26} color="#1E90FF" />
+            </View>
+            <Text style={styles.infoText}>{job.location}</Text>
+          </View>
+        </View>
+
+        {/* Work Days & Time */}
+        <View style={[styles.scheduleBlock, styles.sectionBorder]}>
+          <View style={styles.rowWrap}>
             {job.workDays.map((day, index) => (
-              <View 
-                key={index} 
-                style={[
-                  styles.dayBadge,
-                  day === 'Sat' || day === 'Sun' ? styles.weekendBadge : styles.weekdayBadge
-                ]}
+              <View
+                key={index}
+                style={[styles.dayBadge, styles.dayActive]}
               >
-                <Text style={[
-                  styles.dayText,
-                  day === 'Sat' || day === 'Sun' ? styles.weekendText : styles.weekdayText
-                ]}>
-                  {workDaysJapanese[day] || day}
-                </Text>
+                <Text style={styles.dayTextActive}>{day}</Text>
               </View>
             ))}
           </View>
-          <View style={styles.timeContainer}>
-            <Clock size={12} color="#666" />
-            <Text style={styles.timeText}>
-              {job.title === 'Light Work' ? '09:00 ～ 18:00' :
-               job.title === 'Kitchen Assistant' ? '08:00 ～ 13:00' :
-               job.title === 'Food Delivery Driver' ? '11:00 ～ 15:00' :
-               '09:00 ～ 18:00'}
-            </Text>
+          <View style={styles.rowCenterFull}>
+            <FontAwesomeIcon icon={faClock} size={22} color="#1E90FF" />
+            <Text style={styles.infoText}>09:00 ～ 18:00</Text>
           </View>
         </View>
 
-        {/* Bottom icons */}
-        <View style={styles.bottomIcons}>
-          <View style={styles.iconBadge}>
-            <Star size={16} color="#FFB800" />
+        {/* Highlights */}
+        <View style={[styles.rowStart, styles.sectionBorder]}>
+          <View style={styles.iconCircleLarge}>
+            <FontAwesomeIcon icon={faStar} size={26} color="#1E90FF" />
           </View>
-          <View style={styles.iconBadge}>
-            <Home size={16} color="#4CAF50" />
+          <View style={styles.starFeatures}>
+            {job.highlights.map((item, index) => (
+              <View key={index} style={styles.starIcon}>
+                <Text style={{ color: '#fff', fontSize: 12 }}>{item.length > 6 ? item.slice(0, 5) + '…' : item}</Text>
+              </View>
+            ))}
           </View>
         </View>
       </View>
@@ -152,237 +123,111 @@ export function JobCard({ job }: JobCardProps) {
 const styles = StyleSheet.create({
   container: {
     width: CARD_WIDTH,
-    height: 520,
     padding: 8,
+    paddingTop: 4,
+    borderWidth: 2,
+    borderColor: '#c29c70',
+    borderRadius: 20,
+    backgroundColor: '#fff',
+    alignSelf: 'center',
   },
   card: {
-    flex: 1,
-    backgroundColor: '#F5F5F5',
+    backgroundColor: '#FFFFFF',
     borderRadius: 16,
-    padding: 16,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    padding: 20,
+    gap: 36,
+    minHeight: 620,
   },
-  header: {
+  rowBetween: {
     flexDirection: 'row',
-    alignItems: 'flex-start',
-    marginBottom: 16,
-  },
-  iconContainer: {
-    width: 24,
-    height: 24,
-    backgroundColor: '#FFF',
-    borderRadius: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 8,
-    borderWidth: 1,
-    borderColor: '#FF6B35',
-  },
-  title: {
-    flex: 1,
-    fontSize: 14,
-    fontFamily: 'Inter-SemiBold',
-    color: '#333',
-    lineHeight: 18,
-  },
-  categoryRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    alignItems: 'center',
   },
-  categoryContainer: {
+  rowCenterFull: {
     flexDirection: 'row',
     alignItems: 'center',
-  },
-  categoryIcon: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#FFF',
-    borderRadius: 4,
-    alignItems: 'center',
+    gap: 10,
     justifyContent: 'center',
-    marginRight: 6,
-    borderWidth: 1,
-    borderColor: '#FF6B35',
   },
-  categoryIconText: {
-    fontSize: 12,
-  },
-  categoryText: {
-    fontSize: 14,
-    fontFamily: 'Inter-Medium',
-    color: '#333',
-  },
-  categoryBadge: {
-    width: 24,
-    height: 24,
-    backgroundColor: '#FFF',
-    borderRadius: 4,
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 1,
-    borderColor: '#FF6B35',
-  },
-  categoryBadgeText: {
-    fontSize: 12,
-  },
-  salaryRow: {
+  rowStart: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 16,
+    gap: 14,
   },
-  salaryContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  salaryIcon: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 6,
-    borderWidth: 1,
-    borderColor: '#FFB800',
-  },
-  salaryText: {
-    fontSize: 14,
-    fontFamily: 'Inter-SemiBold',
-    color: '#333',
-  },
-  japaneseLevel: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  japaneseLevelDots: {
-    flexDirection: 'row',
-    marginHorizontal: 6,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    marginHorizontal: 1,
-  },
-  activeDot: {
-    backgroundColor: '#4CAF50',
-  },
-  inactiveDot: {
-    backgroundColor: '#DDD',
-  },
-  japaneseLevelText: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#4CAF50',
-  },
-  commuteRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    marginBottom: 20,
-  },
-  commuteContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  commuteIcon: {
-    width: 20,
-    height: 20,
-    backgroundColor: '#FFF',
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginRight: 6,
-    borderWidth: 1,
-    borderColor: '#FF6B35',
-  },
-  commuteText: {
-    fontSize: 14,
-    fontFamily: 'Inter-Medium',
-    color: '#333',
-  },
-  stationContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#E8F5E8',
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-  },
-  stationIcon: {
-    marginRight: 4,
-  },
-  stationText: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#4CAF50',
-  },
-  scheduleContainer: {
-    marginBottom: 20,
-  },
-  workDays: {
+  rowWrap: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    marginBottom: 12,
-    gap: 4,
-  },
-  dayBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderRadius: 12,
-    marginRight: 4,
-    marginBottom: 4,
-  },
-  weekdayBadge: {
-    backgroundColor: '#FFB800',
-  },
-  weekendBadge: {
-    backgroundColor: '#999',
-  },
-  dayText: {
-    fontSize: 10,
-    fontFamily: 'Inter-SemiBold',
-  },
-  weekdayText: {
-    color: '#FFF',
-  },
-  weekendText: {
-    color: '#FFF',
-  },
-  timeContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  timeText: {
-    fontSize: 12,
-    fontFamily: 'Inter-Medium',
-    color: '#666',
-    marginLeft: 4,
-  },
-  bottomIcons: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
     gap: 8,
-    marginTop: 'auto',
+    marginBottom: 8,
+    justifyContent: 'center',
   },
-  iconBadge: {
-    width: 32,
-    height: 32,
-    backgroundColor: '#FFF',
-    borderRadius: 16,
+  iconCircleLarge: {
+    borderWidth: 1,
+    borderColor: '#c29c70',
+    borderRadius: 50,
+    width: 44,
+    height: 44,
     alignItems: 'center',
     justifyContent: 'center',
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 2,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  infoSection: {
+    paddingVertical: 4,
+  },
+  infoText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  dayBadge: {
+    borderWidth: 1,
+    borderColor: '#c29c70',
+    borderRadius: 12,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dayActive: {
+    backgroundColor: '#c29c70',
+  },
+  dayTextActive: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 12,
+  },
+  scheduleBlock: {
+    gap: 10,
+  },
+  starFeatures: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    flex: 1,
+  },
+  starIcon: {
+    minWidth: 34,
+    height: 34,
+    paddingHorizontal: 8,
+    backgroundColor: '#c29c70',
+    borderRadius: 17,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  sectionBorder: {
+    borderTopWidth: 1,
+    borderColor: '#c29c70',
+    paddingTop: 12,
+    marginTop: -6,
+  },
+  verticalDivider: {
+    width: 1,
+    height: 40,
+    backgroundColor: '#c29c70',
+    marginHorizontal: 10,
   },
 });
