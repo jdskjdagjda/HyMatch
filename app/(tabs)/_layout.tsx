@@ -71,9 +71,8 @@ export default function TabLayout() {
               alignItems: 'center',
               justifyContent: 'center',
               flexDirection: 'row',
-              gap: 4,
             }}>
-              <Phone size={20} color="#FFFFFF" strokeWidth={2} />
+              <Phone size={20} color="#FFFFFF" strokeWidth={2} style={{ marginRight: 4 }} />
               <View style={{
                 backgroundColor: '#FFD700',
                 borderRadius: 4,
